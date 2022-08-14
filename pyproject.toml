@@ -1,0 +1,25 @@
+[tool.poetry]
+name = "cron_parser"
+version = "0.1.0"
+description = ""
+authors = ["Kulakov Oleg <oakulako@mts.ru>"]
+
+[tool.poetry.scripts]
+module = "__main__"
+
+[tool.poetry.dependencies]
+python = "^3.10"
+
+[tool.poetry.dev-dependencies]
+pytest = "7.1.2"
+
+[tool.pytest.ini_options]
+markers = [
+    "expression_length: marks tests for expression length)",
+    "expression_type: marks tests for expression type)",
+    "expression_content: marks tests for expression content"
+]
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
