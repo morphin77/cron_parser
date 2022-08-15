@@ -125,3 +125,69 @@ def test_minutes_must_be_not_valid(expression):
     assert result.validator.is_valid() is False  # el not valid
     assert len(result.validator.reasons()) > 0  # reasons are present
     assert len([el for el in result.validator.reasons() if isinstance(el, SymbolNotAllowedException)]) > 0
+
+
+@pytest.mark.expression_content
+@pytest.mark.parametrize(
+    "expression",
+    (
+            "1-2 * * * * *",
+            "5-7 * * * * *",
+            "33-50 * * * * *"
+    )
+)
+def test_minutes_step_must_be_valid(expression):
+    result = Parser(expression)
+    assert result.validator.is_valid() is True  # el not valid
+    assert len(result.validator.reasons()) == 0  # reasons are present
+
+
+@pytest.mark.expression_content
+@pytest.mark.parametrize(
+    "expression",
+    (
+            "7-5 * * * * *",
+            "*-15 * * * * *",
+            "45-70 * * * * *",
+            "-100 * * * * *",
+            "3- * * * * *",
+    )
+)
+def test_minutes_must_be_not_valid(expression):
+    result = Parser(expression)
+    assert result.validator.is_valid() is False  # el not valid
+    assert len(result.validator.reasons()) > 0  # reasons are present
+    assert len([el for el in result.validator.reasons() if isinstance(el, SymbolNotAllowedException)]) > 0
+
+
+@pytest.mark.expression_content
+@pytest.mark.parametrize(
+    "expression",
+    (
+            "1,2 * * * * *",
+            "5,7,13 * * * * *",
+            "33,50 * * * * *"
+    )
+)
+def test_minutes_step_must_be_valid(expression):
+    result = Parser(expression)
+    assert result.validator.is_valid() is True  # el not valid
+    assert len(result.validator.reasons()) == 0  # reasons are present
+
+
+@pytest.mark.expression_content
+@pytest.mark.parametrize(
+    "expression",
+    (
+            "7,z,5 * * * * *",
+            "*,15 * * * * *",
+            "45,70 * * * * *",
+            ",100 * * * * *",
+            "3, * * * * *",
+    )
+)
+def test_minutes_must_be_not_valid(expression):
+    result = Parser(expression)
+    assert result.validator.is_valid() is False  # el not valid
+    assert len(result.validator.reasons()) > 0  # reasons are present
+    assert len([el for el in result.validator.reasons() if isinstance(el, SymbolNotAllowedException)]) > 0
